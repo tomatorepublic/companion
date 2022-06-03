@@ -4,21 +4,15 @@ const { question } = require('./promises.js');
 const learning = require('./learning.js');
 const meaning = require('./meaning.js');
 
+const features = [learning.main, meaning.main];
+
 const main = async () => {
   let selection = parseInt(
-	  await question('1 - Learn new words 2 - Check the word meaning\n')
+	  (await question('1 - Learn new words 2 - Check the word meaning\n')) - 1
 	);
-	switch (selection) {
-	  case 1:
-	    learning.main();
-	    break;
-	  case 2:
-	    meaning.main();
-	    break;
-	  default:
-	    process.exit();
-	    break;
-	}
+	let answer = features[selection];
+	if (answer) answer();
+	else process.exit();
 }
 
 main();

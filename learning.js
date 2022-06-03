@@ -1,7 +1,7 @@
 'use strict';
 
 const main = () => {
-    console.log("Learning");
-}
+  console.log('Learning');
+};
 
-module.exports = {main};
+module.exports = { main };
