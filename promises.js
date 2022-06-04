@@ -14,7 +14,9 @@ const wordGenerator = () => {
         if (!error) {
             let jsonData = JSON.parse(data)
             let index = Math.floor(Math.random() * Object.keys(jsonData).length);
-            resolve(Object.keys(jsonData)[index]);
+            let key = Object.keys(jsonData)[index];
+            let value = Object.values(jsonData)[index];
+            resolve([index, key, value]);
         }
         else {
             reject(error);
