@@ -2,8 +2,8 @@
 
 const promises = require('./promises.js');
 
-const main = () => {
-  console.log('Learning');
+const main = async () => {
+  console.log(`${await promises.wordGenerator()}`);
 };
 
 module.exports = { main };
