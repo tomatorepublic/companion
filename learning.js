@@ -3,7 +3,8 @@
 const promises = require('./promises.js');
 
 const main = async () => {
-  console.log(`${await promises.wordGenerator()}`);
+  let word = await promises.wordGenerator();
+  console.log(`${await promises.learnedCheck(word[0]) === false}`)
 };
 
 module.exports = { main };
