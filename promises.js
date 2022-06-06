@@ -18,7 +18,7 @@ const wordGenerator = () => {
         let value = Object.values(jsonData)[index];
         resolve([index, key, value]);
       } else {
-        reject(error);
+        reject('Something went wrong...');
       }
     })
   })
@@ -28,20 +28,20 @@ const saveLearned = (index) => {
   if (fs.existsSync('./learned.json')) {
     fs.readFile('learned.json', 'utf8', (error, data) => {
       if (error) {
-        console.log(error);
+        console.log('Something went wrong...');
       } else {
         fs.readFile('learned.json', function (error, data) {
           var json = JSON.parse(data);
           json.push(index);
           fs.writeFile("learned.json", JSON.stringify(json), function(error){
-            if (error) throw error;
+            if (error) console.log('Something went wrong...');
           });
         })
       }
     });
   } else {
     fs.writeFile('learned.json', JSON.stringify([index]), 'utf8', function(error) {
-      if (error) throw error;
+      if (error) console.log('Something went wrong...');
     });
   }
 }
@@ -49,9 +49,10 @@ const saveLearned = (index) => {
 const learnedCheck = (index) => {
   return new Promise((resolve, reject) => {
     if (fs.existsSync('./learned.json')) {
-      fs.readFile('learned.json', 'utf-8', (data) => {
+      fs.readFile('learned.json', 'utf-8', (error, data) => {
+        if (error) console.log('Something went wrong...');
         let jsonData = JSON.parse(data);
-        if (jsonData[`${index}`] !== undefined) resolve(false);
+        if (jsonData[`${index}`] === undefined) resolve(false);
         else reject(true);
       })
     } else {
