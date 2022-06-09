@@ -1,7 +1,10 @@
 'use strict';
 
-const main = () => {
-  console.log('Meaning');
+const promises = require('./promises.js');
+
+const main = async () => {
+  let word = await promises.question(`\nPlease enter the word - `);
+  console.log(await promises.wordSearch(word.toLowerCase()));
 };
 
 module.exports = { main };

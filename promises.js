@@ -61,6 +61,17 @@ const learnedCheck = (index) => {
   })
 }
 
+const wordSearch = (naming) => {
+  return new Promise((resolve, reject) => {
+    fs.readFile('dictionary.json', 'utf-8', (error, data) => {
+      if (error) console.log("Sorry, something went wrong...");
+      let jsonData = JSON.parse(data);
+      if (jsonData[`${naming}`] !== undefined) resolve(jsonData[`${naming}`]);
+      else reject('Sorry, the word was not found...');
+    })
+  })
+}
+
 const question = (str) => new Promise(resolve => rl.question(str, resolve));
 
-module.exports = { question, wordGenerator, learnedCheck, saveLearned };
+module.exports = { question, wordGenerator, learnedCheck, saveLearned, wordSearch };
