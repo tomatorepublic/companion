@@ -10,13 +10,28 @@ const questions = `What can I help you with?
   2 - Check the word meaning
   3 - Exit an application`;
 
-const main = async () => {
+const menu = async () => {
   let selection = parseInt(
 	  (await question(`${questions}\nI'm interested in - `)) - 1
 	);
 	let answer = features[selection];
-	if (answer) answer();
+	if (answer) await answer();
 	else process.exit();
+}
+
+const main = async () => {
+	while (true) {
+    await menu();
+    const answer = await question('\nClear the menu? (yes/no/quit)\n');
+    switch (answer.toLowerCase()) {
+    	case 'yes':
+    		console.clear()
+    		break;
+    	case 'quit':
+    		process.exit()
+    		break;
+    }
+  }
 }
 
 main();
