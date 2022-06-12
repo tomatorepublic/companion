@@ -12,26 +12,26 @@ const questions = `What can I help you with?
 
 const menu = async () => {
   let selection = parseInt(
-	  (await question(`${questions}\nI'm interested in - `)) - 1
-	);
-	let answer = features[selection];
-	if (answer) await answer();
-	else process.exit();
-}
+    (await question(`${questions}\nI'm interested in - `)) - 1
+  );
+  let answer = features[selection];
+  if (answer) await answer();
+  else process.exit();
+};
 
 const main = async () => {
-	while (true) {
+  while (true) {
     await menu();
     const answer = await question('\nClear the menu? (yes/no/quit)\n');
     switch (answer.toLowerCase()) {
-    	case 'yes':
-    		console.clear()
-    		break;
-    	case 'quit':
-    		process.exit()
-    		break;
+      case 'yes':
+        console.clear();
+        break;
+      case 'quit':
+        process.exit();
+        break;
     }
   }
-}
+};
 
 main();

@@ -23,5 +23,4 @@ Object.defineProperty(String.prototype, 'capitalize', {
   enumerable: false,
 });
 
-
 module.exports = { main };
