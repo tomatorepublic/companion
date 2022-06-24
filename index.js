@@ -1,14 +1,22 @@
 'use strict';
 
-const { question } = require('./promises.js');
+const { question } = require('./inquiries.js');
 const learning = require('./learning.js');
-const meaning = require('./meaning.js');
 
-const features = [learning.main, meaning.main];
+const features = [
+  learning.toLearn,
+  learning.itMeans,
+  learning.seeResults,
+  learning.seeTips,
+  learning.doClearing,
+];
 const questions = `What can I help you with?
   1 - Learn new words
   2 - Check the word meaning
-  3 - Exit an application`;
+  3 - See the learned words list
+  4 - Random language studying tips
+  5 - Delete all the learning history
+  6 - Exit an application`;
 
 const menu = async () => {
   let selection = parseInt(
@@ -23,14 +31,8 @@ const main = async () => {
   while (true) {
     await menu();
     const answer = await question('\nClear the menu? (yes/no/quit)\n');
-    switch (answer.toLowerCase()) {
-      case 'yes':
-        console.clear();
-        break;
-      case 'quit':
-        process.exit();
-        break;
-    }
+    if (answer.toLowerCase() == 'yes') console.clear();
+    else if (answer.toLowerCase() == 'quit') process.exit();
   }
 };
 
