@@ -31,8 +31,8 @@ const main = async () => {
   while (true) {
     await menu();
     const answer = await question('\nClear the menu? (yes/no/quit)\n');
-    if (answer.toLowerCase() == 'yes') console.clear();
-    else if (answer.toLowerCase() == 'quit') process.exit();
+    if (answer.toLowerCase() === 'yes') console.clear();
+    else if (answer.toLowerCase() === 'quit') process.exit();
   }
 };
 

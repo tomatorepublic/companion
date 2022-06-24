@@ -3,6 +3,10 @@
 const fs = require('fs');
 const readline = require('readline');
 
+const DICTIONARY = 'dictionary.json';
+const LEARNED = 'learned.json';
+const TIPS = 'tips.json';
+
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
@@ -10,7 +14,7 @@ const rl = readline.createInterface({
 
 const generateWords = () => {
   return new Promise((resolve, reject) => {
-    fs.readFile('dictionary.json', 'utf-8', (error, data) => {
+    fs.readFile(DICTIONARY, 'utf-8', (error, data) => {
       if (!error) {
         let jsonData = JSON.parse(data);
         let index = Math.floor(Math.random() * Object.keys(jsonData).length);
@@ -25,23 +29,23 @@ const generateWords = () => {
 };
 
 const saveLearned = (index) => {
-  if (fs.existsSync('./learned.json')) {
-    fs.readFile('learned.json', (error, data) => {
+  if (fs.existsSync(`./${LEARNED}`)) {
+    fs.readFile(LEARNED, 'utf-8', (error, data) => {
       let json = JSON.parse(data);
       json.push(index);
-      fs.writeFile('learned.json', JSON.stringify(json), (error) => {
+      fs.writeFile(LEARNED, JSON.stringify(json), (error) => {
         if (error) console.log('\nSomething suddenly went wrong');
       });
     });
   } else {
-    fs.writeFileSync('learned.json', JSON.stringify([index]));
+    fs.writeFileSync(LEARNED, JSON.stringify([index]));
   }
 };
 
 const checkLearned = (index) => {
   return new Promise((resolve, reject) => {
-    if (fs.existsSync('./learned.json')) {
-      fs.readFile('learned.json', 'utf-8', (error, data) => {
+    if (fs.existsSync(`./${LEARNED}`)) {
+      fs.readFile(LEARNED, 'utf-8', (error, data) => {
         if (error)
           console.log('\nSomething has happened with the learned file');
         let jsonData = JSON.parse(data);
@@ -56,7 +60,7 @@ const checkLearned = (index) => {
 
 const getWords = (index) => {
   return new Promise((resolve, reject) => {
-    fs.readFile('dictionary.json', 'utf-8', (error, data) => {
+    fs.readFile(DICTIONARY, 'utf-8', (error, data) => {
       if (error)
         console.log(
           '\nSorry, there is something wrong with the dictionary file'
@@ -70,8 +74,8 @@ const getWords = (index) => {
 
 const displayLearned = () => {
   return new Promise((resolve, reject) => {
-    if (fs.existsSync('./learned.json')) {
-      fs.readFile('learned.json', 'utf-8', (error, data) => {
+    if (fs.existsSync(`./${LEARNED}`)) {
+      fs.readFile(LEARNED, 'utf-8', (error, data) => {
         if (error) console.log('\nSomething is wrong with the learned file');
         let jsonData = JSON.parse(data);
         let results = Object.values(jsonData);
@@ -89,7 +93,7 @@ const displayLearned = () => {
 
 const searchMeaning = (word) => {
   return new Promise((resolve, reject) => {
-    fs.readFile('dictionary.json', 'utf-8', (error, data) => {
+    fs.readFile(DICTIONARY, 'utf-8', (error, data) => {
       if (error)
         console.log('\nThere must be something wrong with the dictionary file');
       let jsonData = JSON.parse(data);
@@ -101,7 +105,7 @@ const searchMeaning = (word) => {
 
 const getTips = () => {
   return new Promise((resolve, reject) => {
-    fs.readFile('tips.json', 'utf-8', (error, data) => {
+    fs.readFile(TIPS, 'utf-8', (error, data) => {
       if (error) console.log('\nSomething wrong with the tips file');
       let jsonData = JSON.parse(data);
       let index = Math.floor(Math.random() * Object.keys(jsonData).length);
@@ -110,18 +114,20 @@ const getTips = () => {
   });
 };
 
-const clearLearned = () => {
-  return new Promise((resolve, reject) => {
-    try {
-      fs.unlinkSync('./learned.json');
-      resolve('Your history was successfully deleted');
-    } catch {
-      reject('\nYour learned words list is empty');
-    }
-  });
+const clearLearned = async () => {
+  try {
+    fs.unlinkSync(`./${LEARNED}`);
+    return 'Your history was successfully deleted';
+  } catch {
+    return 'Your learned words list is empty';
+  }
 };
 
-const question = (str) => new Promise((resolve) => rl.question(str, resolve));
+const question = (str) => {
+  return new Promise((resolve) => {
+    rl.question(str, resolve);
+  });
+};
 
 module.exports = {
   question,
